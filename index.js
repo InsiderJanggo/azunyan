@@ -83,6 +83,39 @@ if(command){
     }
     command.run(bot, message, args)
 }
+    bot.nodb = (user) => message.channel.send(new MessageEmbed().setColor("RED")
+    .setDescription(`${user.tag} Is Not On The Database`))
+
+    let user = await User.findOne({guildID: message.guild.id, userID: message.author.id});
+    let guild = await Guild.findOne({guildID: message.guild.id});
+
+    if(!user) {
+        User.create({
+            guildID: message.guild.id,
+            userID: message.author.id,
+        });
+    }
+    if(!guild) {
+        Guild.create({
+            guildID: message.guild.id
+        });
+    }
+
+    let rand = Math.floor(Math.random() * 5);
+    user.money += random;
+    user.xp++
+    user.messages++
+
+    if(user.xp >= process.env.UPXP) {
+        let e = new MessageEmbed()
+        .setColor(process.env.COLOR)
+        .setDescription(`[:tada:] Congrats ${message.author.username} You Level Up`)
+        message.channel.send(e);
+        user.xp -= process.env.UPXP;
+        user.level += 1;
+    }
+
+    user.save();
 })
 
 bot.login(process.env.TOKEN);
