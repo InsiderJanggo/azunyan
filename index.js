@@ -23,8 +23,16 @@ const ms = require('ms')
 
 const filter = m => m.content.includes('discord');
 
+const mongosee = require("mongoose");
+mongosee.connect(process.env.MONGODB, {useNewUrlParser: true, useUnifiedTopology: true});
+mongosee.connection.on('connected', () => {
+    console.log("[Database] Connected");
+})
 
-const PREFIX = '!';
+//Include The DB Model
+const User = require("@models/User.js");
+const Guild = require("@models/Guild.js");
+
 
 
 bot.on('ready', async() => {
@@ -40,7 +48,7 @@ bot.on("error", async(err) => {
 
 bot.on('message', async (message) => {
 if(message.author.bot) return;
-if(!message.content.toLowerCase().startsWith(PREFIX)) return;
+if(!message.content.toLowerCase().startsWith(process.env.PREFIX)) return;
 if(!message.guild) {
     const t = new MessageEmbed()
     t.setTitle('STOP WHERE YOU ARE! ✋')

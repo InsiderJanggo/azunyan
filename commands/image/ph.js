@@ -1,4 +1,3 @@
-const {} = require("discord.js");
 const AlexAPI = require("alexflipnote.js");
 const AlexClient = new AlexAPI();
 

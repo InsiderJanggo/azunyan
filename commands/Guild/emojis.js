@@ -1,6 +1,5 @@
-//will fix this entirely
-const Discord = require('discord.js');
 const {MessageEmbed} = require('discord.js');
+
 module.exports={
     name: 'emojis',
     category: 'guild',
@@ -28,7 +27,7 @@ module.exports={
                 Emojis+=Emoji(emoji.id)
             }
         })
-        let emn = new Discord.MessageEmbed()
+        let emn = new MessageEmbed()
         emn.setTitle(`Emojis of ${message.guild.name}`)
         emn.setThumbnail(message.guild.iconURL({ dynamic: true, format: 'png', size: 512 }))
         emn.setDescription(`**Animated [${Animated}]**:\n${EmojisAnimated}\n\n**Standard [${EmojiCount}]**:\n${Emojis}`)
