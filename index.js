@@ -11,10 +11,10 @@ const bot = new Client({
 bot.website = require("@website/dashboard");
 bot.commands = new Collection();
 bot.aliases = new Collection();
-bot.categories = fs.readdirSync("./commands/");
+bot.categories = fs.readdirSync("@command/commands/");
 const Timeout = new Set();
 ["command"].forEach(handler => {
-    require(`./handlers/${handler}`)(bot);
+    require(`@handlers/${handler}`)(bot);
 });
 
 const request = require('request');
@@ -38,7 +38,7 @@ const Guild = require("@models/Guild.js");
 bot.on('ready', async() => {
     bot.user.setActivity(`${PREFIX}`, {type: "PLAYING"});
     console.log(`Hello, I am online on ${bot.guilds.cache.size} servers and serving ${bot.users.cache.size} users`);
-    await bot.website.load(bot);
+    await bot.website.load(bot); //Init The Dashboard.
 })
 
 bot.on("error", async(err) => {

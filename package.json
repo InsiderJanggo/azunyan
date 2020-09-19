@@ -55,6 +55,8 @@
   "_moduleAliases": {
     "@root": ".",
     "@website": "./website",
-    "@models": "./models"
+    "@models": "./models",
+    "@handlers": "./handlers",
+    "@command": "./commands"
   }
 }
