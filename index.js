@@ -1,13 +1,10 @@
-
-const Discord = require('discord.js');
-const { Collection ,Client, MessageEmbed } = require('discord.js');
-const { MessageAttachment } = require("discord.js")
-const express = require('express');
-
+const { Collection ,Client, MessageEmbed, MessageAttachment } = require('discord.js');
+require("dotenv").config();
+require("module-alias/register");
 
 const fs = require('fs');
-const bot = new Discord.Client({
-    disableEveryone: true
+const bot = new Client({
+    disableMentions: false
 });
 
 bot.commands = new Collection();
@@ -25,15 +22,7 @@ const ms = require('ms')
 const filter = m => m.content.includes('discord');
 
 
-
-
-const token = "NzU2NzY2OTE2OTUyOTgxNTY2.X2WoHQ.fOEu1WV6bc9ffHAQqZPlbkh_LdQ";
-
 const PREFIX = '!';
-
-
-
-
 
 
 
@@ -45,8 +34,10 @@ bot.on('ready', () => {
 
 bot.on("error", async(err) => {
     console.log(err)
-    })
-bot.on('message', async message => {
+})
+
+
+bot.on('message', async (message) => {
 if(message.author.bot) return;
 if(!message.content.toLowerCase().startsWith(PREFIX)) return;
 if(!message.guild) {
@@ -83,7 +74,6 @@ if(command){
     }
     command.run(bot, message, args)
 }
-
 })
 
-bot.login(token);
+bot.login(process.env.TOKEN);
