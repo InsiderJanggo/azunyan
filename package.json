@@ -53,6 +53,7 @@
     "urban-dictionary": "^2.2.1"
   },
   "_moduleAliases": {
-    "@root": "."
+    "@root": ".",
+    "@website": "./website"
   }
 }
