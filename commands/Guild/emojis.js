@@ -6,7 +6,8 @@ module.exports={
     category: 'guild',
     description: 'displays every emoji of the guild, where the command is used',
     aliases: ['emojilist','emoji'],
-    usage: '!emojis',
+    usage: '',
+    timeout: 5,
     run: async(bot, message, args)=>{
         try{
         let Emojis = "";

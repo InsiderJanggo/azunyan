@@ -5,7 +5,8 @@ module.exports={
     category: 'info',
     description: 'Check the ping of Azunyan',
     aliases: ['p','botping'],
-    usage: '!ping',
+    usage: '',
+    timeout: 3,
     run: async(bot, message, args)=>{
         try {
             const m = await message.channel.send("<a:discloading:756834988770721812>")
