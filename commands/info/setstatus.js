@@ -16,12 +16,12 @@ module.exports = {
             guildID: message.guild.id
         });
 
-        if(!data) return bot.nodb(member.user);
+        if(!data) return bot.nodb(message.author);
 
-        let inline = true;
         let e = new MessageEmbed()
         .setColor(process.env.COLOR)
         .setDescription(`Set Your Status To ${reason}`)
+         data.save();
         message.channel.send({embed: e});
     },
 };
