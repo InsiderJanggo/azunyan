@@ -32,7 +32,7 @@ mongosee.connection.on('connected', () => {
 //Include The DB Model
 const User = require("@models/User.js");
 const Guild = require("@models/Guild.js");
-
+const Shop = require("@models/Shop.js");
 
 
 bot.on('ready', async() => {
@@ -47,8 +47,11 @@ bot.on("error", async(err) => {
 
 
 bot.on('message', async (message) => {
+
+    let user = await User.findOne({guildID: message.guild.id, userID: message.author.id});
+    let guild = await Guild.findOne({guildID: message.guild.id});
 if(message.author.bot) return;
-if(!message.content.toLowerCase().startsWith(process.env.PREFIX)) return;
+if(!message.content.toLowerCase().startsWith(guild.prefix)) return;
 if(!message.guild) {
     const t = new MessageEmbed()
     t.setTitle('STOP WHERE YOU ARE! ✋')
@@ -59,7 +62,7 @@ if(!message.guild) {
     return message.channel.send(t);
 }
 if(!message.member) message.member = await message.guild.fetchMember(message);
-const args = message.content.slice(PREFIX.length).trim().split(/ +/g);
+const args = message.content.slice(guild.prefix.length).trim().split(/ +/g);
 const com = args.shift().toLowerCase();
 if(com.length == 0 ) return;
 const command = bot.commands.get(com) || bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(com));
@@ -86,8 +89,7 @@ if(command){
     bot.nodb = (user) => message.channel.send(new MessageEmbed().setColor("RED")
     .setDescription(`${user.tag} Is Not On The Database`))
 
-    let user = await User.findOne({guildID: message.guild.id, userID: message.author.id});
-    let guild = await Guild.findOne({guildID: message.guild.id});
+    
 
     if(!user) {
         User.create({

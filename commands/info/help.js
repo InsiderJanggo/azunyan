@@ -32,7 +32,7 @@ async function allCMD(bot, message) {
                 .map(cat => stripIndents `**${cat[0].toUpperCase() + cat.slice(1)}`)
                 .reduce((string, category) => string + "\n" + category)
 
-    return message.channel.send(e.setDescription(info))''
+    return message.channel.send(e.setDescription(info));
 }
 
 function getCMD(bot, message, input) {
