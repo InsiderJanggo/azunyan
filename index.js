@@ -102,7 +102,7 @@ if(command){
     }
 
     let rand = Math.floor(Math.random() * 5);
-    user.money += random;
+    user.money += rand;
     user.xp++
     user.messages++
 
@@ -114,7 +114,7 @@ if(command){
         user.xp -= process.env.UPXP;
         user.level += 1;
     }
-
+    user.afk = false;
     user.save();
 })
 

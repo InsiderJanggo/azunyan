@@ -21,7 +21,7 @@ module.exports = {
         let e = new MessageEmbed()
         .setColor(process.env.COLOR)
         .setDescription(`Set Your Status To ${reason}`)
-        data.status = reason; data.save();
+        data.status = reason; data.afk = true; data.save();
         message.channel.send({embed: e});
     },
 };

@@ -57,6 +57,7 @@
     "@website": "./website",
     "@models": "./models",
     "@handlers": "./handlers",
-    "@command": "./commands"
+    "@command": "./commands",
+    "@utils": "./utils"
   }
 }
