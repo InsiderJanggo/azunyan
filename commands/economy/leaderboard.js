@@ -9,7 +9,7 @@ module.exports = {
     timeout: 3,
     run: async(bot, message, args) => {
         User.find({ guildID: message.guild.id }).sort([['money','descending']]).exec((err,res) => {
-            let embed = new Discord.MessageEmbed().setColor(process.env.COLOR)
+            let embed = new MessageEmbed().setColor(process.env.COLOR)
             if(res.length === 0){ embed.setDescription('Unfortunately the table for this server is empty.') }
             else if (res.length < 10){ for(i = 0; i < res.length; i++){
                 let name = bot.users.cache.get(res[i].userID).tag || "Unknown"
