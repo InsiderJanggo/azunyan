@@ -1,59 +1,86 @@
-const {MessageEmbed} = require("discord.js");
+const { MessageEmbed } = require('discord.js');
+const Guild = require('../../models/Guild');
 
 module.exports = {
-    name: "help",
-    aliases: ["menu"],
-    description: "Open Help Command",
-    usage: "<cmd name>",
-    run: async(bot, message, args) => {
-        if(args[0]) {
-            return getCMD(bot ,message, args[0]);
-        } else {
-            return allCMD(bot, message);
-        }
-    },
+	name: 'help',
+	timeout: 5,
+	aliases: ['h'],
+	category: 'info',
+	description: 'Display all commands and descriptions',
+	run: async (client, message, args) => {
+		if (args[0]) {
+			const command = await client.commands.get(args[0]);
+
+			if (!command) {
+				return message.channel.send('Unknown Command: ' + args[0]);
+			}
+
+			let embed = new MessageEmbed()
+				.setAuthor(command.name, client.user.displayAvatarURL())
+				.setThumbnail(client.user.displayAvatarURL())
+				.setColor('GREEN')
+				.setFooter(`Prefix: ${guildData.prefix}`);
+
+			if (command.description) {
+				embed.addField('Description', '```' + command.description + '```');
+			} else {
+				embed.addField('Description', '```' + 'Not Provided' + '```');
+			}
+
+			if (command.aliases) {
+				embed.addField(
+					'Aliases',
+					'```' + `${command.aliases.map((a) => `${a}`).join(', ')}` + '```',
+				);
+			} else {
+				embed.addField('Aliases', '```' + 'None' + '```');
+			}
+
+			if (command.usage) {
+				embed.addField('Usage', '```' + command.usage + '```');
+			} else {
+				embed.addField('Usage', '```' + 'Not Provided' + '```');
+			}
+
+			if (command.timeout) {
+				embed.addField('Cooldown', '```' + command.timeout + '```');
+			} else {
+				embed.addField('Cooldown', '```' + 'Not Provided' + '```');
+			}
+
+			return message.channel.send(embed);
+		} else {
+			let guildData = await Guild.findOne({ guildID: message.guild.id });
+			const commands = await client.commands;
+
+			let emx = new MessageEmbed()
+				.setDescription(
+					'[Invite link!](https://discord.com/oauth2/authorize?client_id=733455907824074783&scope=bot&permissions=34948166)',
+				)
+				.setColor('GREEN')
+				.setFooter(`Prefix: ${guildData.prefix}`)
+				.setThumbnail(client.user.displayAvatarURL());
+
+			let com = {};
+			for (let comm of commands.array()) {
+				let category = comm.category || 'Unknown';
+				let name = comm.name;
+
+				if (!com[category]) {
+					com[category] = [];
+				}
+				com[category].push(name);
+			}
+
+			for (const [key, value] of Object.entries(com)) {
+				let category = key;
+
+				let desc = '`' + value.join('`, `') + '`';
+
+				emx.addField(`${category.toUpperCase()}[${value.length}]`, desc);
+			}
+
+			return message.channel.send(emx);
+		}
+	},
 };
-
-
-
-async function allCMD(bot, message) {
-    let guildData = await Guild.findOne({guildID: message.guild.id})
-    const e = new MessageEmbed()
-    .setTitle("PINK")
-    .setTitle(`Command[${bot.commands.size}]`)
-    .addField(`Prefix:`, `${guilData.prefix}`, true)
-    const commands = (category) => {
-        return bot.commands
-                .filter(cmd => cmd.category === category)
-                .map(cmd => `\`${cmd.name}\``)
-    }
-
-    const info = bot.categories
-                .map(cat => stripIndents `**${cat[0].toUpperCase() + cat.slice(1)}`)
-                .reduce((string, category) => string + "\n" + category)
-
-    return message.channel.send(e.setDescription(info));
-}
-
-function getCMD(bot, message, input) {
-    const e = new MessageEmbed()
-    
-    const cmd = bot.commands.get(input.toLowerCase() || bot.commands.get(bot.aliases.get(input.toLowerCase())));
-
-    let info = `No Information Found For Command **${input.toLowerCase()}**`;
-
-    if(!cmd) {
-        return message.channel.send(e.setColor("RED").setDescription(info));
-    }
-
-    if(cmd.name) info = `**Command Name:**: ${cmd.name}`;
-    if(cmd.aliases) info += `\n**Aliases**: ${cmd.aliases.map(a => a `\`${a}\``).join(", ")}`;
-    if(cmd.description) info += `\n**Description**: ${cmd.description}`;
-    if(cmd.timeout) info += `\n**Cooldown**: ${cmd.timeout} S`
-    if(cmd.usage) {
-        info += `\n**Usage**: ${cmd.usage}`;
-        e.setFooter(`Syntax: <> = required, [] = optional`);
-    }
-
-    return message.channel.send(e.setColor("PINK").setDescription(info));
-}
