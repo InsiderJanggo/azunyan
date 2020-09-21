@@ -1,5 +1,4 @@
-const { MessageEmbed } = require('discord.js');
-const User = require('../../models/User');
+﻿const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	name: 'leaderboard',

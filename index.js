@@ -1,4 +1,4 @@
-const {
+﻿const {
 	Collection,
 	Client,
 	MessageEmbed,
@@ -28,7 +28,7 @@ const ms = require('ms');
 
 const filter = (m) => m.content.includes('discord');
 
-const mongosee = require('mongoose');
+global.mongosee = require('mongoose');
 mongosee.connect(process.env.MONGODB, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
@@ -38,9 +38,9 @@ mongosee.connection.on('connected', () => {
 });
 
 //Include The DB Model
-const User = require('@models/User.js');
-const Guild = require('@models/Guild.js');
-const Shop = require('@models/Shop.js');
+global.User = require('@models/User.js');
+global.Guild = require('@models/Guild.js');
+global.Shop = require('@models/Shop.js');
 
 bot.on('ready', async () => {
 	bot.user.setActivity(`${process.env.PREFIX}`, { type: 'PLAYING' });
