@@ -68,13 +68,7 @@ bot.on('guildCreate', (guild) => {
 });
 
 bot.on('message', async (message) => {
-	let user = await User.findOne({
-		guildID: message.guild.id,
-		userID: message.author.id,
-	});
-	let guild = await Guild.findOne({ guildID: message.guild.id });
 	if (message.author.bot) return;
-	if (!message.content.toLowerCase().startsWith(guild.prefix)) return;
 	if (!message.guild) {
 		const t = new MessageEmbed();
 		t.setTitle('STOP WHERE YOU ARE! ✋');
@@ -84,6 +78,24 @@ bot.on('message', async (message) => {
 		t.setFooter('You may stop using commands in DMs');
 		return message.channel.send(t);
 	}
+	let user = await User.findOne({
+		guildID: message.guild.id,
+		userID: message.author.id,
+	});
+	let guild = await Guild.findOne({ guildID: message.guild.id });
+	if (!guild) {
+		const newGuild = new Guild({ guildID: message.guild.id });
+		newGuild.save();
+		return;
+	}
+	if (!user) {
+		User.create({
+			guildID: message.guild.id,
+			userID: message.author.id,
+		});
+		return;
+	}
+	if (!message.content.toLowerCase().startsWith(guild.prefix)) return;
 	if (!message.member)
 		message.member = await message.guild.fetchMember(message);
 	const args = message.content.slice(guild.prefix.length).trim().split(/ +/g);
@@ -128,18 +140,6 @@ bot.on('message', async (message) => {
 				.setColor('RED')
 				.setDescription(`${user.tag} Is Not On The Database`),
 		);
-
-	if (!user) {
-		User.create({
-			guildID: message.guild.id,
-			userID: message.author.id,
-		});
-	}
-	if (!guild) {
-		Guild.create({
-			guildID: message.guild.id,
-		});
-	}
 
 	let rand = Math.floor(Math.random() * 5);
 	user.money += rand;
