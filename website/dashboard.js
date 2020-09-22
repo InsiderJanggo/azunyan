@@ -3,7 +3,6 @@ const passport = require('passport');
 const session = require('express-session');
 const bodyparser = require('body-parser');
 const { Strategy } = require('passport-discord');
-const bot = require('@root/index');
 const path = require('path');
 
 const app = express();
@@ -75,7 +74,7 @@ module.exports.load = async (bot) => {
 			});
 		})
 		.get('/me', CheckAuth, function (req, res) {
-			res.render(__dirname + '/views/profile.ejs'),
+			res.render(__dirname + '/views/profile.ejs',
 				{
 					status: req.isAuthenticated()
 						? `${req.user.username}#${req.user.discriminator}`
@@ -87,7 +86,7 @@ module.exports.load = async (bot) => {
 					),
 					avatarURL: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`,
 					iconURL: `https://cdn.discordapp.com/${req.user.id}/${req.user.avatar}.png?size=32`,
-				};
+				});
 		})
 		.get('/servers/:guildID', CheckAuth, function (req, res) {
 			const serv = bot.guilds.cache.get(req.params.guildID);
@@ -105,7 +104,7 @@ module.exports.load = async (bot) => {
 			)
 				return res.redirect('/dashboard');
 
-			res.render(__dirname + '/views/profile.ejs'),
+			res.render(__dirname + '/views/profile.ejs',
 				{
 					status: req.isAuthenticated()
 						? `${req.user.username}#${req.user.discriminator}`
@@ -114,7 +113,7 @@ module.exports.load = async (bot) => {
 					guilds: serv,
 					avatarURL: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`,
 					iconURL: `https://cdn.discordapp.com/${req.user.id}/${req.user.avatar}.png?size=32`,
-				};
+				});
 		})
 		.post('/servers/:guildID', CheckAuth, function (req, res) {
 			if (!req.body.send_CHANNELID)
