@@ -66,7 +66,7 @@ module.exports.load = async (bot) => {
 			res.render(__dirname + '/views/index.ejs', {
 				status: req.isAuthenticated()
 					? `${req.user.username}#${req.user.discriminator}`
-					: 'Connected',
+					: 'Login',
 				bot: bot.user,
 				user: req.user,
 				login: req.isAuthenticated() ? 'oui' : 'non',
@@ -78,7 +78,7 @@ module.exports.load = async (bot) => {
 				{
 					status: req.isAuthenticated()
 						? `${req.user.username}#${req.user.discriminator}`
-						: 'Connected',
+						: 'Login',
 					bot: bot.user,
 					user: req.user,
 					guilds: req.user.guilds.filter(
@@ -108,7 +108,7 @@ module.exports.load = async (bot) => {
 				{
 					status: req.isAuthenticated()
 						? `${req.user.username}#${req.user.discriminator}`
-						: 'Connected',
+						: 'Login',
 					user: req.user,
 					guilds: serv,
 					avatarURL: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`,
