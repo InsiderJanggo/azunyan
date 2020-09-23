@@ -16,7 +16,7 @@ module.exports = {
         const loveIndex = Math.floor(love / 10);
         const loveLevel = "💖".repeat(loveIndex) + "💔".repeat(10 - loveIndex);
 
-        const embed = newMessageEmbed()
+        const embed = new MessageEmbed()
             .setColor("#ffb6c1")
             .addField(`☁ **${bot.user.username}** loves **${user.username}** this much:`,
             `💟 ${Math.floor(love)}%\n\n${loveLevel}`)
