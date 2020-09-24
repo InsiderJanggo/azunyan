@@ -25,9 +25,9 @@ module.exports.load = async (bot) => {
 				callbackURL: `${process.env.DOMAIN}/login`,
 				scope: scopes,
 			},
-			function (accessToken, refreshToken, profile, done) {
+			function (accessToken, refreshToken, me, done) {
 				process.nextTick(function () {
-					return done(null, profile);
+					return done(null, me);
 				});
 			},
 		),

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
       integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/one-page-wonder.min.css"/>
 </head>
 <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -35,6 +36,28 @@
         </div>
       </div>
     </nav>
+
+    <header class="masthead text-center text-white">
+      <div class="masthead-content">
+          <div class="container">
+              <img class="img-fluid bot-avatar rounded-circle" src="<%= bot.avatarURL() %>" width="200px" height="200px" alt="">
+              <h3 class="masthead-heading mb-0" style="font-size: 3em !important;"><%=bot.username%></h3>
+              <br />
+              <a class="btn" href="<%=invite%>" role="button">
+                <span>
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </span>
+                Invite Me
+              </a>
+              <a class="btn" href="/login" role="button">
+                <span>
+                  <i class="fa fa-sign-in" aria-hidden="true"></i>
+                </span>
+                Login
+              </a>
+          </div>
+      </div>
+    </header>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
