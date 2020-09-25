@@ -13,7 +13,7 @@ module.exports.load = async (bot) => {
 	passport.deserializeUser((obj, done) => done(null, obj));
 
 	const scopes = ['identify', 'guilds'];
-
+  
 	passport.use(new Strategy({
 		clientID: process.env.CLIENTID,
 		clientSecret: process.env.CLIENTSECRET,
@@ -50,6 +50,7 @@ module.exports.load = async (bot) => {
 			res.redirect('/');
 		})
 		.get('/', function (req, res) {
+
 			Render(req, res, 'index', {
 				invite: `https://discordapp.com/oauth2/authorize?client_id=${process.env.CLIENTID}&scope=bot&permissions=0`,
 			});
