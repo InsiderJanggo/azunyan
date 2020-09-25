@@ -5,6 +5,14 @@ const schema = mongoose.Schema({
     prefix: {
         type: String,
         default: process.env.PREFIX
+    },
+    welcomeChannel: {
+        type: String,
+        default: ''
+    },
+    levelUpChannel: {
+        type: String,
+        default: ''
     }
 });
 
