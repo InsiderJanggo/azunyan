@@ -6,32 +6,22 @@ const { Strategy } = require('passport-discord');
 const path = require('path');
 
 const app = express();
+const port = 3000;
 
 module.exports.load = async (bot) => {
-	passport.serializeUser((user, done) => {
-		done(null, user);
-	});
-	passport.deserializeUser((obj, done) => {
-		done(null, obj);
-	});
+	passport.serializeUser((user, done) => done(null, user));
+	passport.deserializeUser((obj, done) => done(null, obj));
 
-	var scopes = ['identify', 'guilds'];
-
-	passport.use(
-		new Strategy(
-			{
-				clientID: process.env.CLIENTID,
-				clientSecret: process.env.CLIENTSECRET,
-				callbackURL: `${process.env.DOMAIN}/login`,
-				scope: scopes,
-			},
-			function (accessToken, refreshToken, me, done) {
-				process.nextTick(function () {
-					return done(null, me);
-				});
-			},
-		),
-	);
+	const scopes = ['identify', 'guilds'];
+  
+	passport.use(new Strategy({
+		clientID: process.env.CLIENTID,
+		clientSecret: process.env.CLIENTSECRET,
+		callbackURL: process.env.development ? process.env.DOMAIN : `http://localhost:${port}`+'/login',
+		scope: scopes,
+	}, function (accessToken, refreshToken, me, done) {
+		process.nextTick(() => done(null, me));
+	}));
 
 	app
 		.use(bodyparser.json())
@@ -50,43 +40,30 @@ module.exports.load = async (bot) => {
 		.use(passport.session());
 
 	app
-		.get(
-			'/login',
-			passport.authenticate('discord', { failureRedirect: '/' }),
+		.get('/login', passport.authenticate('discord', { failureRedirect: '/' }),
 			function (req, res) {
 				res.redirect('/me');
 			},
 		)
 		.get('/logout', function (req, res) {
 			req.logout();
-
 			res.redirect('/');
 		})
 		.get('/', function (req, res) {
-			res.render(__dirname + '/views/index.ejs', {
-				status: req.isAuthenticated()
-					? `${req.user.username}#${req.user.discriminator}`
-					: 'Login',
-				bot: bot.user,
-				user: req.user,
-				login: req.isAuthenticated() ? 'oui' : 'non',
+
+			Render(req, res, 'index', {
 				invite: `https://discordapp.com/oauth2/authorize?client_id=${process.env.CLIENTID}&scope=bot&permissions=0`,
 			});
 		})
 		.get('/me', CheckAuth, function (req, res) {
-			res.render(__dirname + '/views/profile.ejs',
-				{
-					status: req.isAuthenticated()
-						? `${req.user.username}#${req.user.discriminator}`
-						: 'Login',
-					bot: bot.user,
-					user: req.user,
-					guilds: req.user.guilds.filter(
-						(u) => (u.permessions & 2146958591) == 2146958591,
-					),
-					avatarURL: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`,
-					iconURL: `https://cdn.discordapp.com/${req.user.id}/${req.user.avatar}.png?size=32`,
-				});
+			Render(req, res, 'profile', {
+				guilds: req.user.guilds.filter((u) => (u.permessions & 2146958591) == 2146958591),
+				avatarURL: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`,
+				iconURL: `https://cdn.discordapp.com/${req.user.id}/${req.user.avatar}.png?size=32`,
+			}, {
+				title: req.user.username,
+				extend: true
+			});
 		})
 		.get('/servers/:guildID', CheckAuth, function (req, res) {
 			const serv = bot.guilds.cache.get(req.params.guildID);
@@ -104,16 +81,14 @@ module.exports.load = async (bot) => {
 			)
 				return res.redirect('/dashboard');
 
-			res.render(__dirname + '/views/profile.ejs',
-				{
-					status: req.isAuthenticated()
-						? `${req.user.username}#${req.user.discriminator}`
-						: 'Login',
-					user: req.user,
-					guilds: serv,
-					avatarURL: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`,
-					iconURL: `https://cdn.discordapp.com/${req.user.id}/${req.user.avatar}.png?size=32`,
-				});
+			Render(req, res, 'server', {
+				guild: serv,
+				avatarURL: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`,
+				iconURL: `https://cdn.discordapp.com/${req.user.id}/${req.user.avatar}.png?size=32`,
+			}, {
+				title: serv.name,
+				extend: true
+			});
 		})
 		.post('/servers/:guildID', CheckAuth, function (req, res) {
 			if (!req.body.send_CHANNELID)
@@ -132,17 +107,40 @@ module.exports.load = async (bot) => {
 			res.redirect('/');
 		});
 
-	function CheckAuth(res, req, next) {
-		if (req.isAuthenticated()) {
-			return next();
-		} else {
+	function CheckAuth(req, res, next) {
+		if (req.isAuthenticated()) return next();
+		else {
 			return res.redirect('/login');
 		}
 	}
 
-	app.listen(3000, function (err) {
-		if (err) return console.log(err);
+	/**
+	 * Render a template
+	 * @param {Request} req - Request object
+	 * @param {Response} res - Response object
+	 * @param {string} template - template name
+	 * @param {Object} data - data object
+	 * @param {Object} title - title data
+	 * @param {boolean} [title.extend] - to extend base title
+	 * @param {string} [title.title] - overwrite base title
+	 */
+	function Render(req, res, template, data = {}, title = {}) {
+		let renderTitle;
+		if (title.title && title.extend) renderTitle = `${bot.user.username} - ${title.title}`;
+		else if (title.title && !title.extend) renderTitle = title.title;
+		else renderTitle = bot.user.username;
+		const BaseData = {
+			status: req.isAuthenticated() ? `${req.user.username}#${req.user.discriminator}` : 'Login',
+			login: req.isAuthenticated() ? 'oui' : 'non',
+			title: renderTitle,
+			bot: bot.user,
+			user: req.user,
+		};
+		res.render(__dirname + '/views/' + template, Object.assign(BaseData, data));
+	}
 
-		console.log('Dashboard Ready!!!');
+	app.listen(port, function (err) {
+		if (err) return console.log(err);
+		console.log(`Dashboard connected on port: ${port}`);
 	});
 };

@@ -7,10 +7,12 @@ const schema = mongoose.Schema({
         default: process.env.PREFIX
     },
     welcomeChannel: {
-        type: String
+        type: String,
+        default: ''
     },
     levelUpChannel: {
-        type: String
+        type: String,
+        default: ''
     }
 });
 
