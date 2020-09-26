@@ -4,29 +4,33 @@
   <%- include('blocks/head.ejs') %>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/">Home</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="<%= login === 'oui' ? '/profile': '/login' %>"><%=status%></a>
-          </li>
-          <%if(login === 'oui') {%>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
-          </li>
-          <%}%>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <%- include('blocks/navbar.ejs', {status, login}) %>
 
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+  <center>
+    <div class="guild-container">
+      <div class="serv-container">
+        <% guilds.forEach(g => { %>
+          <div class="">
+            <a href="/servers/<%= g.id %>">
+              <div>
+                  <img 
+                    src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon %>.png?size=2048" 
+                    onerror="this.onerror = null; this.src = `https:\/\/discordapp.com/assets/1cbd08c76f8af6dddce02c5138971129.png`"
+                    alt="<%= g.name %>" 
+                    draggable="false"
+                    class="guild-icon"
+                    width="70px" 
+                    height="70px"
+                  >
+              </div>
+              <h2 class="guild-name"><%= g.name %></h2>
+            </a>
+          </div>
+        <% }) %>
+       </div>
+    </div>
+  </center>
+
+  <%- include('blocks/footer.ejs', {status, login}) %>
 </body>
 </html>
