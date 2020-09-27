@@ -96,7 +96,7 @@
         border-radius: 50%;
         border: 2px solid #ddd;
         vertical-align: middle;
-        transition: border-radius .5s cubic-bezier(.5, 1.65, .5, -0.65);
+        transition: border-radius .5s cubic-bezier(0.15, 0.82, 0.85, 1.07);
         display: inline-block;
         text-decoration: none;
         border: 2px solid white !important;
@@ -189,4 +189,7 @@
       .error {
         background-color: rgba(240,71,71,.3);
         border-color: #f04747;
+      }
+      .loginHB {
+        margin-left: 10px
       }

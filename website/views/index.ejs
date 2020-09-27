@@ -4,7 +4,7 @@
   <%- include('blocks/head.ejs') %>
 </head>
 <body>
-  <%- include('blocks/navbar.ejs') %>
+  <%- include('blocks/navbar.ejs', {status, login}) %>
   <header class="masthead text-center text-white">
     <div class="masthead-content">
         <div class="container">
@@ -12,13 +12,14 @@
           alt="">
           <h3 class="masthead-heading mb-0" style="font-size: 3em !important;"><%=bot.username%></h3>
           <br />
-          <a class="btn" href="<%=invite%>" role="button">
+          <a class="btn" href="<%=invite%>" role="button" target="blank">
             <span>
               <i class="fa fa-plus" aria-hidden="true"></i>
             </span>
             Invite Me
           </a>
-          <a class="btn" href="/login" role="button">
+          
+          <a class="btn loginHB" role="button">
             <span>
               <i class="fa fa-sign-in" aria-hidden="true"></i>
             </span>
@@ -46,13 +47,7 @@
       </div>
     </section>
 
-    <%- include('blocks/footer.ejs') %>
-    <script src="/js/jquery.min.js"></script>
+    <%- include('blocks/footer.ejs', {status, login}) %>
     <script src="/js/bootstrap.min.js"></script>
-    <script>
-      $(document).ready(function() {
-        
-      });
-    </script>
 </body>
 </html>

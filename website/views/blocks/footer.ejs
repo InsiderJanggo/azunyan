@@ -3,3 +3,25 @@
         <p class="m-0 text-center text-white small">Copyright $#169; <%=bot.username%> 2020</p>
     </div>
 </footer>
+<script src="/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.logout-btn').on('click', function () {
+      document.location.pathname = '/logout';
+    });
+    $('.status-mubt').on('click', function () {
+      const stat = '<%= login %>';
+      if (stat === 'oui' && 
+        document.location.pathname == '/me') return;
+      else if (stat !== 'oui' &&
+        document.location.pathname !== '/me') 
+          document.location.pathname = '/me'
+      else document.location.pathname = `<%= login === 'oui' ? '/me': '/login' %>`;
+    });
+    $('.loginHB').on('click', function () {
+      const login = '<%= login %>';
+      if (login == 'oui') document.location.pathname = '/me';
+      else document.location.pathname = '/login';
+    });
+  });
+</script>

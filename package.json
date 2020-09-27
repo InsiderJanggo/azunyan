@@ -4,7 +4,8 @@
 	"description": "A MultiPurpose Discord Bot Build On discord..js libary included economy,moderation,level system, and fun command",
 	"main": "index.js",
 	"scripts": {
-		"test": "nodemon index.js"
+		"test": "nodemon index.js",
+		"start": "node index.js"
 	},
 	"repository": {
 		"type": "git",
