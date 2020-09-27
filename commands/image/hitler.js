@@ -7,7 +7,7 @@ module.exports = {
     aliases: [""],
     description: "Manipulate hitler meme from family guy",
     usage: "[mention]",
-    category: "images",
+    category: "image",
     timeout: 10,
     run: async(bot, message, args) => {
         let msg = await message.channel.send("Please Wait...");

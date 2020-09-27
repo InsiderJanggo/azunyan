@@ -7,7 +7,7 @@ module.exports = {
     aliases: [""],
     usage: "[mention]",
     timeout: 10,
-    category: "images",
+    category: "image",
     description: "Manipulate trigger meme.",
     run: async(bot, message, args) => {
         let msg = await message.channel.send("Please Wait...");
