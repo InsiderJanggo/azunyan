@@ -3,6 +3,7 @@ const passport = require('passport');
 const session = require('express-session');
 const bodyparser = require('body-parser');
 const { Strategy } = require('passport-discord');
+const Render = require('../utils/render');
 const path = require('path');
 
 const app = express();
@@ -29,13 +30,15 @@ module.exports.load = async (bot) => {
 		.engine('html', require('ejs').renderFile)
 		.use(express.static(path.join(__dirname + '/public')))
 		.set('view engine', 'ejs')
-		.use(
-			session({
-				secret: 'azunyan dashboard',
-				resave: false,
-				saveUninitialized: false,
-			}),
-		)
+		.use(async function(req, res, next) {
+			req.bot = bot;
+			next();
+		})
+		.use(session({
+			secret: 'azunyan dashboard',
+			resave: false,
+			saveUninitialized: false,
+		}))
 		.use(passport.initialize())
 		.use(passport.session());
 
@@ -51,12 +54,12 @@ module.exports.load = async (bot) => {
 		})
 		.get('/', function (req, res) {
 
-			Render(req, res, 'index', {
+			Render(bot, req, res, 'index', {
 				invite: `https://discordapp.com/oauth2/authorize?client_id=${process.env.CLIENTID}&scope=bot&permissions=0`,
 			});
 		})
 		.get('/me', CheckAuth, function (req, res) {
-			Render(req, res, 'profile', {
+			Render(bot, req, res, 'profile', {
 				guilds: req.user.guilds.filter(u => (u.permissions & 2146958591) === 2146958591),
 				avatarURL: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`,
 				iconURL: `https://cdn.discordapp.com/${req.user.id}/${req.user.avatar}.png?size=32`,
@@ -81,7 +84,7 @@ module.exports.load = async (bot) => {
 			)
 				return res.redirect('/dashboard');
 
-			Render(req, res, 'server', {
+			Render(bot, req, res, 'server', {
 				guild: serv,
 				avatarURL: `https://cdn.discordapp.com/avatars/${req.user.id}/${req.user.avatar}.png`,
 				iconURL: `https://cdn.discordapp.com/${req.user.id}/${req.user.avatar}.png?size=32`,
@@ -114,31 +117,6 @@ module.exports.load = async (bot) => {
 		else {
 			return res.redirect('/login');
 		}
-	}
-
-	/**
-	 * Render a template
-	 * @param {Request} req - Request object
-	 * @param {Response} res - Response object
-	 * @param {string} template - template name
-	 * @param {Object} data - data object
-	 * @param {Object} title - title data
-	 * @param {boolean} [title.extend] - to extend base title
-	 * @param {string} [title.title] - overwrite base title
-	 */
-	function Render(req, res, template, data = {}, title = {}) {
-		let renderTitle;
-		if (title.title && title.extend) renderTitle = `${bot.user.username} - ${title.title}`;
-		else if (title.title && !title.extend) renderTitle = title.title;
-		else renderTitle = bot.user.username;
-		const BaseData = {
-			status: req.isAuthenticated() ? `${req.user.username}#${req.user.discriminator}` : 'Login',
-			login: req.isAuthenticated() ? 'oui' : 'non',
-			title: renderTitle,
-			bot: bot.user,
-			user: req.user,
-		};
-		res.render(__dirname + '/views/' + template, Object.assign(BaseData, data));
 	}
 
 	app.listen(port, function (err) {
