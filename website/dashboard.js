@@ -107,6 +107,8 @@ module.exports.load = async (bot) => {
 			res.redirect('/');
 		});
 
+		require("./routes/index")(app);
+		
 	function CheckAuth(req, res, next) {
 		if (req.isAuthenticated()) return next();
 		else {

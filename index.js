@@ -160,6 +160,10 @@ bot.on('message', async (message) => {
 	user.save();
 });
 
+bot.on("message", async(member) => {
+	require("./events/guildAddMember")(member);
+})
+
 bot.login(process.env.TOKEN);
 
 module.exports = bot;
