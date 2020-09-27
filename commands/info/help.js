@@ -18,7 +18,7 @@ module.exports = {
 			let embed = new MessageEmbed()
 				.setAuthor(command.name, client.user.displayAvatarURL())
 				.setThumbnail(client.user.displayAvatarURL())
-				.setColor('GREEN')
+				.setColor(process.env.COLOR)
 				.setFooter(`Prefix: ${guildData.prefix}`);
 
 			if (command.description) {
@@ -57,7 +57,7 @@ module.exports = {
 				.setDescription(
 					'[Invite link!](https://discord.com/oauth2/authorize?client_id=733455907824074783&scope=bot&permissions=34948166)',
 				)
-				.setColor('GREEN')
+				.setColor(process.env.COLOR)
 				.setFooter(`Prefix: ${guildData.prefix}`)
 				.setThumbnail(client.user.displayAvatarURL());
 

@@ -27,9 +27,10 @@ module.exports = {
 		const e = new MessageEmbed()
 			.setColor(process.env.COLOR)
 			.setTitle(`${message.author.username} Kissed ${ment.username} OwO`)
-			.setDescription(
+			.setFooter(
 				'This bot was made by the contributors on [here](https://github.com/InsiderJanggo/azunyan)',
 			)
+			.setAuthor(`${bot.user.username}`, botico)
 			.setImage(body.url);
 		message.channel.send({ embed: e });
 	},
