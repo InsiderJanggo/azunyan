@@ -6,7 +6,7 @@ module.exports = {
     name: "rps",
     aliases: ["rockpaperscissors"],
     category: "fun",
-    usage: ["🗻", "📰", "✂"],
+    usage: ["rock", "paper", "scissors"],
     description: "Rock paper scissors with Azunyan.",
     timeout: 10,
     run: async(bot, message, args) => {

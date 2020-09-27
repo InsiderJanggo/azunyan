@@ -5,8 +5,29 @@
 </head>
 <body>
     <%- include('blocks/navbar.ejs') %>
+    <header class="masthead text-center text-white">
+        <div class="masthead-content">
+            <div class="container">
+                <% if(guild.icon) {%>
+                    <img src="https://cdn.discordapp.com/icons/<%=guild.id%>/<%=guild.icon%>.png?size=128" class="bot-avatar rounded-circle" width="150px" height="150px"/>
+                    <%} else {%>
+                    <canvas class="bot-avatar rounded-circle" id="<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '') %>" width="150px" height="150px"></canvas>
+                    <script>
+                        function createIcone() {
+                            const nameAcronym = document.getElementById("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '') %>").getContext("2d");
+                            nameAcronym.font = '90px Arial';
+                            nameAcronym.textAlign = "center";
+                            nameAcronym.fillStyle = "white";
+                            nameAcronym.fillText("<%= guild.name.replace(/\w+/g, name => name[0]).replace(/\s/g, '') %>", 75, 105);
+                        };
+                        createIcone();
+                    </script>
+                    <%}%>
+                    <br/>
+            </div>
+        </div>
+    </header>
 
-
-    
+    <%- include('blocks/footer.ejs') %>
 </body>
 </html>
