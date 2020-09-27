@@ -70,7 +70,7 @@ module.exports.load = async (bot) => {
 
 			if (!serv)
 				return res.redirect(
-					`https://discordapp.com/oauth2/authorize?client_id=${process.env.CLIENTID}&scope=bot&permissions=0&guild_id${req.params.guildID}`,
+					`https://discordapp.com/oauth2/authorize?client_id=${process.env.CLIENTID}&scope=bot&permissions=0&guild_id=${req.params.guildID}`,
 				);
 
 			if (
