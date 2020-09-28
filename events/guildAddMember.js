@@ -1,4 +1,4 @@
-module.exports = (member) => {
+module.exports = async(member) => {
     let data =  await Guild.findOne({
         guildID: member.guild.id
     });
