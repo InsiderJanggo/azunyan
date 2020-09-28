@@ -61,6 +61,7 @@
 		"@models": "./models",
 		"@handlers": "./handlers",
 		"@command": "./commands",
-		"@utils": "./utils"
+		"@utils": "./utils",
+		"@events": "./events"
 	}
 }

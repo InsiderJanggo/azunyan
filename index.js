@@ -1,8 +1,7 @@
 ﻿const {
 	Collection,
 	Client,
-	MessageEmbed,
-	MessageAttachment,
+	MessageEmbed
 } = require('discord.js');
 require('dotenv').config();
 require('module-alias/register');
@@ -43,28 +42,14 @@ global.Guild = require('@models/Guild.js');
 global.Shop = require('@models/Shop.js');
 
 bot.on('ready', async () => {
-	bot.user.setActivity(`${process.env.PREFIX}`, { type: 'PLAYING' });
-	console.log(
-		`Hello, I am online on ${bot.guilds.cache.size} servers and serving ${bot.users.cache.size} users`,
-	);
-	await bot.website.load(bot); //Init The Dashboard.
+	require("@events/ready")(bot);
 });
 
 bot.on('error', async (err) => {
 	console.log(err);
 });
 bot.on('guildCreate', (guild) => {
-	let channelID;
-	let channels = guild.channels.cache;
-	channelLoop: for (let c of channels) {
-		let channelType = c[1].type;
-		if (channelType === 'text') {
-			channelID = c[0];
-			break channelLoop;
-		}
-	}
-	let channel = bot.channels.cache.get(guild.systemChannelID || channelID);
-	channel.send();
+	require("@events/guildCreate")(guild);
 });
 
 bot.on('message', async (message) => {
@@ -160,8 +145,12 @@ bot.on('message', async (message) => {
 	user.save();
 });
 
-bot.on("message", async(member) => {
-	require("./events/guildAddMember")(member);
+bot.on("guildMemberAdd", async(member) => {
+	require("@events/guildAddMember")(member);
+});
+
+bot.on("guildMemberRemove", async(member) => {
+	require("@events/guildMemberRemover")(member);
 })
 
 bot.login(process.env.TOKEN);
