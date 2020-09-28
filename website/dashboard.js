@@ -3,7 +3,7 @@ const passport = require('passport');
 const session = require('express-session');
 const bodyparser = require('body-parser');
 const { Strategy } = require('passport-discord');
-const Render = require('../utils/render');
+const Render = require('@utils/render');
 const path = require('path');
 
 const app = express();
