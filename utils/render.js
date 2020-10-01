@@ -1,6 +1,6 @@
 	/**
 	 * Render a template
-   * @param {*} bot - server bot client
+   	 * @param {*} bot - server bot client
 	 * @param {Request} req - Request object
 	 * @param {Response} res - Response object
 	 * @param {string} template - template name

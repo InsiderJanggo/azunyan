@@ -8,6 +8,7 @@ module.exports = {
     aliases: ["setwelcomechannel"],
     description: "Azunyan Will Welcomed new member on specific channel",
     usage: "<channel>",
+    category: "guild",
     timeout: 100,
     run: async(bot, message, args) => {
         let data = await Guild.findOne({
