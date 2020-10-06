@@ -38,7 +38,7 @@
 		"express-session": "^1.17.1",
 		"fs": "0.0.1-security",
 		"module-alias": "^2.2.2",
-		"mongoose": "^5.10.7",
+		"mongoose": "^5.10.8",
 		"ms": "^2.1.2",
 		"node-fetch": "^2.6.1",
 		"node-superfetch": "^0.1.10",
