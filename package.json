@@ -50,7 +50,7 @@
 		"request": "^2.88.2",
 		"snekfetch": "^4.0.4",
 		"superagent": "^6.1.0",
-		"swiftcord": "^2.1.5",
+		"swiftcord": "^2.1.6",
 		"table": "^6.0.3",
 		"tenorjs": "^1.0.7",
 		"urban-dictionary": "^2.2.1"
