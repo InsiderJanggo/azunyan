@@ -26,7 +26,7 @@
 	},
 	"homepage": "https://github.com/InsiderJanggo/azunyan#readme",
 	"dependencies": {
-		"alexflipnote.js": "^1.2.6",
+		"alexflipnote.js": "^2.4.1",
 		"ascii-table": "0.0.9",
 		"body-parser": "^1.19.0",
 		"canvas": "^2.6.1",
