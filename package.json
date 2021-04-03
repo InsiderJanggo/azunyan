@@ -29,7 +29,7 @@
 		"alexflipnote.js": "^1.2.6",
 		"ascii-table": "0.0.9",
 		"body-parser": "^1.19.0",
-		"canvas": "^2.6.1",
+		"canvas": "^2.7.0",
 		"canvas-constructor": "^4.1.0",
 		"discord.js": "^12.3.1",
 		"dotenv": "^8.2.0",
