@@ -52,7 +52,7 @@
 		"superagent": "^6.1.0",
 		"swiftcord": "^2.1.5",
 		"table": "^6.0.8",
-		"tenorjs": "^1.0.7",
+		"tenorjs": "^1.0.8",
 		"urban-dictionary": "^2.2.1"
 	},
 	"_moduleAliases": {
