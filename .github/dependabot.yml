@@ -1,0 +1,35 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "22:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: mongoose
+    versions:
+    - 5.11.13
+    - 5.11.14
+    - 5.11.15
+    - 5.11.16
+    - 5.11.17
+    - 5.11.18
+    - 5.11.19
+    - 5.12.0
+    - 5.12.3
+  - dependency-name: table
+    versions:
+    - 6.0.7
+    - 6.0.9
+  - dependency-name: node-superfetch
+    versions:
+    - 0.1.11
+  - dependency-name: alexflipnote.js
+    versions:
+    - 2.3.4
+    - 2.3.6
+    - 2.4.0
+  - dependency-name: swiftcord
+    versions:
+    - 2.1.6
