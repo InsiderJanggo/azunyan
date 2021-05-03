@@ -41,7 +41,7 @@
 		"mongoose": "^5.12.2",
 		"ms": "^2.1.2",
 		"node-fetch": "^2.6.1",
-		"node-superfetch": "^0.1.10",
+		"node-superfetch": "^0.2.3",
 		"os": "^0.1.1",
 		"os-utils": "0.0.14",
 		"passport": "^0.4.1",
