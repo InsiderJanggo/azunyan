@@ -53,7 +53,7 @@
 		"swiftcord": "^2.1.5",
 		"table": "^6.0.8",
 		"tenorjs": "^1.0.7",
-		"urban-dictionary": "^2.2.1"
+		"urban-dictionary": "^3.0.1"
 	},
 	"_moduleAliases": {
 		"@root": ".",
